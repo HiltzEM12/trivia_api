@@ -183,6 +183,9 @@ ALTER TABLE ONLY public.questions
 ALTER TABLE ONLY public.questions
     ADD CONSTRAINT category FOREIGN KEY (category) REFERENCES public.categories(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
+--Change category id's to zero based index to work with the front end
+UPDATE public.categories SET id = id - 1;
+
 
 --
 -- PostgreSQL database dump complete
