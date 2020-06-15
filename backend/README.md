@@ -69,7 +69,25 @@ export FLASK_ENV=development
 flask run
 ```
 
+***NOTE: there is a known error of module 'time' has no attribute 'clock'.  This is a depricated feature in SQLAlchemy that needs to be changed manualy.
+
+
 Setting the `FLASK_ENV` variable to `development` will detect file changes and restart the server automatically.
+In the virtual environment folder (env in this case), edit the file Lib\site_packages->sqlalchemy->util->compat.py
+Comment out the following:
+```bash
+import time
+
+if win32 or jython:
+    time_func = time.clock
+else:
+    time_func = time.time
+```
+
+After that, you might need to update the Werkzeug via:
+    pip install --upgrade Werkzeug
+For more info see: https://knowledge.udacity.com/questions/132762
+
 
 Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
