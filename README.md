@@ -42,3 +42,14 @@ The `./frontend` directory contains a complete React frontend to consume the dat
 Pay special attention to what data the frontend is expecting from each API response to help guide how you format your API. 
 
 [View the README.md within ./frontend for more details.](./frontend/README.md)
+
+### Endpoints needed
+/categories GET  #For getting category list.  See FormView.js and QuizView.js
+/questions POST #For posting a new question.  See FormView.js
+/questions POST #For searching for a question.  Will have data with searchTerm.  See QuestionView.js
+/questions?page=${this.state.page} GET  #For getting questions.  See QuestionView.js
+/categories/${id}/questions GET  #For getting questions of a category.  See QuestionView.js
+/questions/${id} DELETE For deleting a question.  See QuestionView.js
+/quizzes POST  For getting the next question.  See QuizView.js
+
+
