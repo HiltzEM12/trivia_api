@@ -210,7 +210,6 @@ def create_app(test_config=None):
       
       category = Category.query.filter(Category.id == category_id).one_or_none().type
 
-      print(category)
       if len(current_questions) == 0:
           abort(404)
       else:
@@ -232,6 +231,35 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
+
+  @app.route('/quizzes', methods=['POST'])
+  def retrieve_quizzes():
+    body = request.get_json()
+    print(body)
+    # previous_questions = body.previous_questions
+    # quiz_category = body.quiz_category
+    # body examples
+    #{'previous_questions': [], 'quiz_category': {'type': 'Science', 'id': '0'}}
+    #{'previous_questions': [], 'quiz_category': {'type': 'click', 'id': 0}}
+    #{'previous_questions': [24, 24, 24, 24, 24], 'quiz_category': {'type': 'click', 'id': 0}}
+    #{'previous_questions': [24], 'quiz_category': {'type': 'Entertainment', 'id': '4'}}
+
+    #If type = click, then choose from all questions, else, by category_id
+    #Get list of questions (all or category)
+      #Don't include any questions from the previous question list
+    #if questions exists, select a question randomly.  Else, return None for question
+    #previous questions are added on the client side and returned in the body
+    return jsonify({
+      'success': True,
+      'previousQuestions':[1,2,3],
+      'question':Question.query.filter(Question.id == 24).one_or_none().format()
+    })
+    #example of returning none if no more questions exist
+    # return jsonify({
+    #   'success': True,
+    #   'previousQuestions':[1,2,3],
+    #   'question':None
+    # })
 
   '''
   @TODO: 
