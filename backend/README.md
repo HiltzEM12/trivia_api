@@ -15,11 +15,15 @@ We recommend working within a virtual environment whenever using Python for proj
 On Windows, run the following:
     py -m pip install --user virtualenv
     py -m venv env
+The last variable above is the name of the virtual environment.  In this case 'env'
 Then add the env folder to the gitignore
 Then activate the virtual environment by running:
     .\env\Scripts\activate
+If the above doesn't work, use:
+    source env/Scripts/activate
 Check to see if its running, run:
     where python
+It should display something allong the lines of (...env\Scripts\python.exe) if it's running.
 To leave the virtual environment, run:
     deactivate
 
@@ -31,6 +35,7 @@ Once you have your virtual environment setup and running, install dependencies b
 ```bash
 pip install -r requirements.txt
 ```
+***NOTE:  Some of these are not working.  psycopg2-binary needs to be installed manually via (pip install psycopg2-binary)
 
 This will install all of the required packages we selected within the `requirements.txt` file.
 
@@ -47,6 +52,10 @@ With Postgres running, restore a database using the trivia.psql file provided. F
 ```bash
 psql trivia < trivia.psql
 ```
+**Note:  Must create the db 1st using:
+    CREATE DATABASE trivia
+**Note:  Also might need to create a role with your user name.  I did this via the GUI.
+**Note:  Must change the role used in the trivia.psql file to the one created above.
 
 ## Running the server
 
