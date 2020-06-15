@@ -105,6 +105,30 @@ def create_app(test_config=None):
   TEST: When you click the trash icon next to a question, the question will be removed.
   This removal will persist in the database and when you refresh the page. 
   '''
+  @app.route('/questions/<int:question_id>', methods=['DELETE'])
+  def delete_question(question_id):
+
+      question = Question.query.filter(Question.id == question_id).one_or_none()
+
+      if question is None:
+          abort(404)  # abort if question id is not found
+      else:
+          try:
+              question.delete()
+
+              selection = Question.query.order_by(Question.id).all()
+              # uses helper function above
+              current_questions = paginate_questions(request, selection)
+
+              # return books from the same page so the page can refresh
+              return jsonify({
+                  'success': True,
+                  'deleted': question_id,
+                  'books': current_questions,
+                  'total_books': len(selection)
+              })
+          except:
+              abort(422)
 
   '''
   @TODO: 
@@ -116,6 +140,47 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
   '''
+  @app.route('/questions', methods=['POST'])
+  def create_question():
+
+    # get the body and put the needed parts into variables
+    body = request.get_json()
+    new_question = body.get('question', None)
+    new_answer = body.get('answer', None)
+    new_difficulty = body.get('difficulty', None)
+    new_category = body.get('category', None)
+    search = body.get('searchTerm', None)
+    print('testtttttttttt',search)
+    try:  #If a search term was included, then return the search results
+      if search:
+        selection = Question.query.order_by(Question.id).filter(
+            Question.question.ilike('%{}%'.format(search))).all()
+        current_questions = paginate_questions(request, selection)
+        print('testtttttttttt',current_questions)
+        return jsonify({
+            'success': True,
+            'questions': current_questions,
+            'totalQuestions': len(selection),
+            'currentCategory': None
+        })
+
+      else: # No search term, add a new question
+        question = Question(question=new_question, answer=new_answer,
+                    difficulty=new_difficulty,category=new_category)
+        question.insert()
+
+        selection = Question.query.order_by(Question.id).all()
+        # uses helper function above
+        current_questions = paginate_questions(request, selection)
+        # return books from the same page so the page can refresh
+        return jsonify({
+            'success': True,
+            'created': question.id,
+            'questions': current_questions,
+            'total_questions': len(selection)
+        })
+    except:
+      abort(422)
 
   '''
   @TODO: 
@@ -127,6 +192,7 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
+  #See above
 
   '''
   @TODO: 
