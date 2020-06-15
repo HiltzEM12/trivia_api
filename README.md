@@ -52,4 +52,17 @@ Pay special attention to what data the frontend is expecting from each API respo
 /questions/${id} DELETE For deleting a question.  See QuestionView.js
 /quizzes POST  For getting the next question.  See QuizView.js
 
+### Notes
+To start, open two consoles and navigate to the appropriate folders (cd backend, cd frontend)
+To start backend use:
+```bash
+source env/Scripts/activate  #For virtual environment
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask run
+```
 
+To start frontend use:
+```bash
+npm start
+```
