@@ -194,12 +194,39 @@ DELETE /questions/${id}
 - Creates a new question
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page.  Only applicable when searching.
+- New question json should be formatted as such:
+```
+{
+    'question': "What's the capital of SC", 
+    'answer': 'Columbia', 
+    'difficulty': '2', 
+    'category': '2'
+}
+```
 - Returns 422 if not all required fields are present (question, answer, difficulty, category)
 - On search returns json object contianing the questions that match the search criteria: 
 ```
 {
     'success': True, 
-    'questions': [{'id': 6, 'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 'answer': 'Edward Scissorhands', 'category': 4, 'difficulty': 3}, {'id': 18, 'question': 'How many paintings did Van Gogh sell in his lifetime?', 'answer': 'One', 'category': 1, 'difficulty': 4}], 'totalQuestions': 2, 'currentCategory': None}
+    'questions': [
+        {
+            'id': 6, 
+            'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 
+            'answer': 'Edward Scissorhands', 
+            'category': 4, 
+            'difficulty': 3
+        }, 
+        {
+            'id': 18, 
+            'question': 'How many paintings did Van Gogh sell in his lifetime?', 
+            'answer': 'One', 
+            'category': 1, 
+            'difficulty': 4
+        }
+    ], 
+    'totalQuestions': 2, 
+    'currentCategory': None
+}
 ``` 
 - On add new returns json object with status, id of newly created question, new count of questions: 
 ```
@@ -250,7 +277,7 @@ DELETE /questions/${id}
 {
     'success': True, 
     'deleted': 5, 
-    'books': [
+    'questions': [
         {
             'id': 6, 
             'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 
@@ -265,7 +292,7 @@ DELETE /questions/${id}
             'category': 3, 
             'difficulty': 1}
     ], 
-    'total_books': 21
+    'total_questions': 21
 }
 ``` 
 
