@@ -124,8 +124,8 @@ def create_app(test_config=None):
               return jsonify({
                   'success': True,
                   'deleted': question_id,
-                  'books': current_questions,
-                  'total_books': len(selection)
+                  'questions': current_questions,
+                  'total_questions': len(selection)
               })
           except:
               abort(422)
@@ -210,11 +210,10 @@ def create_app(test_config=None):
             Question.category == category_id).all()
       current_questions = paginate_questions(request, selection)
       
-      category = Category.query.filter(Category.id == category_id).one_or_none().type
-
       if len(current_questions) == 0:
           abort(404)
       else:
+          category = Category.query.filter(Category.id == category_id).one_or_none().type
           return jsonify({
               'success': True,
               'questions': current_questions,
