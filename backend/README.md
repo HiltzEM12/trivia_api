@@ -117,57 +117,152 @@ DELETE /questions/${id}
 ```
 
 GET '/categories'
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category.
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
 ```
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+{
+    'success': True, 
+    'categories': ['Science', 'Art', 'Geography', 'History', 'Entertainment', 'Sports'], 
+    'total_categories': 6
+}
 ```
 
 
-GET '/categories/<id>/questions'
-- Fetches 
-- Request Arguments: 
-- Returns: 
+GET '/categories/{id}/questions'
+- Fetches a page of questions that are in the given category id given in the uri.
+- Request Arguments:
+    - page: page of questions requested.  Questions are separated into 10 per page.
+- Returns json object with the questions to be displayed: 
 ```
-{}
+{
+    'success': True, 
+    'questions': [
+        {
+            'id': 10, 
+            'question': 'Which is the only team to play in every soccer World Cup tournament?', 
+            'answer': 'Brazil', 
+            'category': 5, 
+            'difficulty': 3
+        }, 
+        {
+            'id': 11, 
+            'question': 'Which country won the first ever soccer World Cup in 1930?', 
+            'answer': 'Uruguay', 
+            'category': 5, 
+            'difficulty': 4
+        }
+    ], 
+    'totalQuestions': 2, 
+    'currentCategory': 'Sports'
+}
 ``` 
 
 GET '/questions'
-- Fetches 
-- Request Arguments: 
-- Returns: 
+- Fetches a page of question of any category.
+- Request Arguments:
+    - page: page of questions requested.  Questions are separated into 10 per page.
+- Returns json object with the questions to be displayed: 
 ```
-{}
+{
+    'success': True, 
+    'questions': [
+        {
+            'id': 5, 
+            'question': "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?", 
+            'answer': 'Maya Angelou', 
+            'category': 3, 
+            'difficulty': 2
+        }, 
+        {
+            'id': 6, 
+            'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 
+            'answer': 'Edward Scissorhands', 
+            'category': 4, 'difficulty': 3
+        }
+    ], 
+    'totalQuestions': 22, 
+    'categories': ['Science', 'Art', 'Geography', 'History', 'Entertainment', 'Sports'], 
+    'currentCategory': None
+}
 ``` 
 
 POST '/questions'
-- Fetches 
-- Request Arguments: 
-- Returns: 
+- Fetches a json file containing the question that meet the searc criteria
+- Creates a new question
+- Request Arguments:
+    - page: page of questions requested.  Questions are separated into 10 per page.  Only applicable when searching.
+- Returns 422 if not all required fields are present (question, answer, difficulty, category)
+- On search returns json object contianing the questions that match the search criteria: 
 ```
-{}
+{
+    'success': True, 
+    'questions': [{'id': 6, 'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 'answer': 'Edward Scissorhands', 'category': 4, 'difficulty': 3}, {'id': 18, 'question': 'How many paintings did Van Gogh sell in his lifetime?', 'answer': 'One', 'category': 1, 'difficulty': 4}], 'totalQuestions': 2, 'currentCategory': None}
 ``` 
+- On add new returns json object with status, id of newly created question, new count of questions: 
+```
+{
+    'success': True, 
+    'created': 29, 
+    'total_questions': 21
+}
+```
 
 POST '/quizzes'
-- Fetches 
+- Fetches a random question for the quiz.  
 - Request Arguments: 
+    - In the request body: 
+    - previous_questions: list of ids of questions already asked during this quiz attempt.
+    - quiz_category: json object containing the category type and id.  If all categories are chosen, then type should be 'click'.
+```
+{
+    'previous_questions': [17, 16], 
+    'quiz_category': {
+        'type': 'Art', 
+        'id': '1'
+    }
+}
+```
 - Returns: 
 ```
-{}
+{
+    'success': True, 
+    'question': {
+        'id': 19, 
+        'question': 'Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?', 
+        'answer': 'Jackson Pollock', 
+        'category': 1, 
+        'difficulty': 2
+    }
+}
 ``` 
 
-DELETE '/questions/<id>'
-- Fetches 
-- Request Arguments: 
-- Returns: 
+DELETE '/questions/{id}'
+- Deletes the question with the unique id given in the uri 
+- Request Arguments:
+    - page: page of questions requested.  Questions are separated into 10 per page
+- Returns a json object with the id of the question deleted as well as the a list of the remaining questions: 
 ```
-{}
+{
+    'success': True, 
+    'deleted': 5, 
+    'books': [
+        {
+            'id': 6, 
+            'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 
+            'answer': 'Edward Scissorhands', 
+            'category': 4, 
+            'difficulty': 3
+        }, 
+        {
+            'id': 9, 
+            'question': "What boxer's original name is Cassius Clay?", 
+            'answer': 'Muhammad Ali', 
+            'category': 3, 
+            'difficulty': 1}
+    ], 
+    'total_books': 21
+}
 ``` 
 
 ## Testing
