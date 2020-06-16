@@ -235,25 +235,35 @@ def create_app(test_config=None):
   @app.route('/quizzes', methods=['POST'])
   def retrieve_quizzes():
     body = request.get_json()
-    print(body)
-    # previous_questions = body.previous_questions
-    # quiz_category = body.quiz_category
-    # body examples
-    #{'previous_questions': [], 'quiz_category': {'type': 'Science', 'id': '0'}}
-    #{'previous_questions': [], 'quiz_category': {'type': 'click', 'id': 0}}
-    #{'previous_questions': [24, 24, 24, 24, 24], 'quiz_category': {'type': 'click', 'id': 0}}
-    #{'previous_questions': [24], 'quiz_category': {'type': 'Entertainment', 'id': '4'}}
+    previous_questions = body.get('previous_questions', None) #previous question list
+    quiz_category = body.get('quiz_category', None) #category details
+    
+    category_name = quiz_category.get('type',None) #specific category name (use to see if all were chosen)
+    category_id = quiz_category.get('id',None) #specific category id
 
-    #If type = click, then choose from all questions, else, by category_id
     #Get list of questions (all or category)
-      #Don't include any questions from the previous question list
+    #Question.id.notin_(previous_questions) makes sure the previous questions are not asked again
+    #If type = click, then choose from all questions, else, by category_id
+    if category_name == 'click':
+        selection = Question.query.order_by(Question.id).filter(Question.id.notin_(previous_questions)).all()
+    else:  #Get questions from a specific category
+        selection = Question.query.order_by(Question.id).filter(Question.category == category_id).filter(Question.id.notin_(previous_questions)).all()
+    
     #if questions exists, select a question randomly.  Else, return None for question
-    #previous questions are added on the client side and returned in the body
+    if selection:
+        rand = random.randrange(0, len(selection)) #get random number from one to last row of slection
+        question = selection[rand].format()
+    else:
+        question = None
+
     return jsonify({
       'success': True,
-      'previousQuestions':[1,2,3],
-      'question':Question.query.filter(Question.id == 24).one_or_none().format()
+      'question':question
     })
+    # return jsonify({
+    #   'success': True,
+    #   'question':Question.query.filter(Question.id == 24).one_or_none().format()
+    # })
     #example of returning none if no more questions exist
     # return jsonify({
     #   'success': True,
