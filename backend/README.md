@@ -133,6 +133,7 @@ DELETE /questions/${id}
 - Fetches a page of questions that are in the given category id given in the uri.
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page.
+- Returns response 404 if no questions were found
 - Returns json object with the questions to be displayed: 
 ```
 {
@@ -162,6 +163,7 @@ DELETE /questions/${id}
 - Fetches a page of question of any category.
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page.
+- Returns response 404 if no questions were found
 - Returns json object with the questions to be displayed: 
 ```
 {
@@ -241,6 +243,8 @@ DELETE /questions/${id}
 - Deletes the question with the unique id given in the uri 
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page
+- Returns response 404 if question doesn't exist
+--Returns response 422 if there was a problem deleting the question
 - Returns a json object with the id of the question deleted as well as the a list of the remaining questions: 
 ```
 {
