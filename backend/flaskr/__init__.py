@@ -165,20 +165,22 @@ def create_app(test_config=None):
         })
 
       else: # No search term, add a new question
-        question = Question(question=new_question, answer=new_answer,
-                    difficulty=new_difficulty,category=new_category)
-        question.insert()
+        if not(new_question and new_answer and new_difficulty and new_category):
+            abort(422)
+        else:
+            question = Question(question=new_question, answer=new_answer,
+                        difficulty=new_difficulty,category=new_category)
+            question.insert()
 
-        selection = Question.query.order_by(Question.id).all()
-        # uses helper function above
-        current_questions = paginate_questions(request, selection)
-        # return books from the same page so the page can refresh
-        return jsonify({
-            'success': True,
-            'created': question.id,
-            'questions': current_questions,
-            'total_questions': len(selection)
-        })
+            selection = Question.query.order_by(Question.id).all()
+            # uses helper function above
+            current_questions = paginate_questions(request, selection)
+            # return books from the same page so the page can refresh
+            return jsonify({
+                'success': True,
+                'created': question.id,
+                'total_questions': len(selection)
+            })
     except:
       abort(422)
 
@@ -260,16 +262,6 @@ def create_app(test_config=None):
       'success': True,
       'question':question
     })
-    # return jsonify({
-    #   'success': True,
-    #   'question':Question.query.filter(Question.id == 24).one_or_none().format()
-    # })
-    #example of returning none if no more questions exist
-    # return jsonify({
-    #   'success': True,
-    #   'previousQuestions':[1,2,3],
-    #   'question':None
-    # })
 
   '''
   @TODO: 
