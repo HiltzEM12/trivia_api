@@ -130,6 +130,46 @@ GET '/categories'
 ```
 
 
+GET '/categories/<id>/questions'
+- Fetches 
+- Request Arguments: 
+- Returns: 
+```
+{}
+``` 
+
+GET '/questions'
+- Fetches 
+- Request Arguments: 
+- Returns: 
+```
+{}
+``` 
+
+POST '/questions'
+- Fetches 
+- Request Arguments: 
+- Returns: 
+```
+{}
+``` 
+
+POST '/quizzes'
+- Fetches 
+- Request Arguments: 
+- Returns: 
+```
+{}
+``` 
+
+DELETE '/questions/<id>'
+- Fetches 
+- Request Arguments: 
+- Returns: 
+```
+{}
+``` 
+
 ## Testing
 To run the tests, run
 ```
