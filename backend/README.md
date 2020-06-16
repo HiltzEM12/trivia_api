@@ -116,7 +116,7 @@ POST /quizzes
 DELETE /questions/${id}
 ```
 
-GET '/categories'
+### GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category.
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
@@ -129,7 +129,7 @@ GET '/categories'
 ```
 
 
-GET '/categories/{id}/questions'
+### GET '/categories/{id}/questions'
 - Fetches a page of questions that are in the given category id given in the uri.
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page.
@@ -158,7 +158,7 @@ GET '/categories/{id}/questions'
 }
 ``` 
 
-GET '/questions'
+### GET '/questions'
 - Fetches a page of question of any category.
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page.
@@ -187,7 +187,7 @@ GET '/questions'
 }
 ``` 
 
-POST '/questions'
+### POST '/questions'
 - Fetches a json file containing the question that meet the searc criteria
 - Creates a new question
 - Request Arguments:
@@ -208,7 +208,7 @@ POST '/questions'
 }
 ```
 
-POST '/quizzes'
+### POST '/quizzes'
 - Fetches a random question for the quiz.  
 - Request Arguments: 
     - In the request body: 
@@ -237,7 +237,7 @@ POST '/quizzes'
 }
 ``` 
 
-DELETE '/questions/{id}'
+### DELETE '/questions/{id}'
 - Deletes the question with the unique id given in the uri 
 - Request Arguments:
     - page: page of questions requested.  Questions are separated into 10 per page
