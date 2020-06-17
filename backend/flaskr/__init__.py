@@ -217,6 +217,7 @@ def create_app(test_config=None):
   '''
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def retrieve_category_questions(category_id):
+        category_id = int(category_id) + 1  # fix the zero based index issue
         selection = Question.query.order_by(Question.id).filter(
             Question.category == category_id).all()
         current_questions = paginate_questions(request, selection)
@@ -255,6 +256,9 @@ def create_app(test_config=None):
         # specific category name (use to see if all were chosen)
         category_name = quiz_category.get('type', None)
         category_id = quiz_category.get('id', None)  # specific category id
+
+        if category_id:  # fix the zero based index issue
+            category_id = int(category_id) + 1
 
         # Get list of questions (all or category)
         # Question.id.notin_(previous_questions)
