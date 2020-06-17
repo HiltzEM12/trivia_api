@@ -39,7 +39,7 @@ class TriviaTestCase(unittest.TestCase):
             'previous_questions': [17, 16], 
             'quiz_category': {
                 'type': 'Art', 
-                'id': '1'
+                'id': '2'
             }
         }
 
@@ -89,7 +89,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['totalQuestions'])
-        self.assertEqual(data['currentCategory'],'Art')
+        self.assertEqual(data['currentCategory'],'Science')
         self.assertTrue(len(data['questions']))
 
     # GET /categories/${id}/questions FAIL due to bad category id
